@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { SqlEditor } from "../editor";
+import { ResultGrid } from "../result";
+import { useQueryStore } from "../../store/queryStore";
+import { useConnectionStore } from "../../store/connectionStore";
 
 export function MainPanel() {
   const [activeTab, setActiveTab] = useState<"query" | "er">("query");
@@ -53,28 +57,42 @@ export function MainPanel() {
 }
 
 function QueryPanel() {
+  const { executeQuery, isExecuting } = useQueryStore();
+  const { isConnected } = useConnectionStore();
+
+  const handleRun = () => {
+    if (isConnected) {
+      executeQuery();
+    }
+  };
+
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
-      {/* SQL Editor placeholder */}
-      <div className="flex-1 border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-        <div className="flex h-full items-center justify-center text-gray-400">
-          SQL Editor (Monaco Editor)
-        </div>
+      {/* SQL Editor */}
+      <div className="h-1/2 min-h-[150px] border-b border-gray-200 dark:border-gray-700">
+        <SqlEditor />
       </div>
 
       {/* Toolbar */}
       <div className="flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2 dark:border-gray-700 dark:bg-gray-800">
-        <button className="flex items-center gap-1 rounded bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700">
+        <button
+          onClick={handleRun}
+          disabled={!isConnected || isExecuting}
+          className="flex items-center gap-1 rounded bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+        >
           <PlayIcon />
-          Run
+          {isExecuting ? "Running..." : "Run"}
         </button>
+        {!isConnected && (
+          <span className="text-xs text-gray-500">
+            Connect to a database first
+          </span>
+        )}
       </div>
 
-      {/* Results placeholder */}
-      <div className="flex-1 overflow-auto bg-white p-4 dark:bg-gray-900">
-        <div className="flex h-full items-center justify-center text-gray-400">
-          Query results will appear here
-        </div>
+      {/* Results */}
+      <div className="flex-1 overflow-hidden bg-white dark:bg-gray-900">
+        <ResultGrid />
       </div>
     </div>
   );

@@ -12,12 +12,12 @@ export function ConnectionDialog({ isOpen, onClose }: ConnectionDialogProps) {
     useConnectionStore();
 
   const [form, setForm] = useState<Omit<ConnectionConfig, "id">>({
-    name: "",
+    name: "Local Dev",
     host: "localhost",
     port: 5432,
-    database: "",
+    database: "simulation",
     username: "postgres",
-    password: "",
+    password: "postgres",
     ssl_mode: "disable",
   });
 
