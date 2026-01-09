@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    dbpilot_temp_lib::run()
+    dbpilot_lib::run()
 }
