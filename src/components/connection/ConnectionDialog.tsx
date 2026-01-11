@@ -20,7 +20,6 @@ export function ConnectionDialog({ isOpen, onClose }: ConnectionDialogProps) {
     deleteConnection,
     setDefaultConnection,
     getConnectionPassword,
-    connectToSaved,
   } = useConnectionStore();
 
   const [selectedConnectionId, setSelectedConnectionId] = useState<string>("");
@@ -119,22 +118,10 @@ export function ConnectionDialog({ isOpen, onClose }: ConnectionDialogProps) {
   };
 
   const handleConnect = async () => {
-    if (selectedConnectionId) {
-      const saved = savedConnections.find((c) => c.id === selectedConnectionId);
-      if (saved) {
-        try {
-          await connectToSaved(saved);
-          onClose();
-        } catch {
-          // Error is handled in store
-        }
-        return;
-      }
-    }
-
+    // Always use the password from the form
     const config: ConnectionConfig = {
       ...form,
-      id: crypto.randomUUID(),
+      id: selectedConnectionId || crypto.randomUUID(),
     };
 
     try {

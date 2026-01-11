@@ -134,7 +134,10 @@ export const useConnectionStore = create<ConnectionState>((set, get) => ({
 
   getConnectionPassword: async (id: string) => {
     try {
-      return await invoke<string>("get_connection_password", { id });
+      const password = await invoke<string | null>("get_connection_password", {
+        id,
+      });
+      return password ?? "";
     } catch (error) {
       set({ error: String(error) });
       throw error;
@@ -150,10 +153,18 @@ export const useConnectionStore = create<ConnectionState>((set, get) => ({
     }
   },
 
-  connectToSaved: async (saved: SavedConnection) => {
+  connectToSaved: async (saved: SavedConnection, passwordOverride?: string) => {
     try {
       set({ isConnecting: true, error: null });
-      const password = await get().getConnectionPassword(saved.id);
+      const password =
+        passwordOverride ?? (await get().getConnectionPassword(saved.id));
+      if (!password) {
+        set({
+          isConnecting: false,
+          error: "Password not found. Please enter password and save again.",
+        });
+        throw new Error("Password not found");
+      }
       const config: ConnectionConfig = {
         id: saved.id,
         name: saved.name,

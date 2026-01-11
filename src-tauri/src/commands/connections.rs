@@ -80,13 +80,18 @@ fn save_password_to_keyring(id: &str, password: &str) -> Result<(), AppError> {
     Ok(())
 }
 
-fn get_password_from_keyring(id: &str) -> Result<String, AppError> {
+fn get_password_from_keyring(id: &str) -> Result<Option<String>, AppError> {
     let entry = Entry::new(KEYRING_SERVICE, &keyring_account(id))
         .map_err(|e| AppError::ConfigError(format!("Failed to create keyring entry: {}", e)))?;
 
-    entry
-        .get_password()
-        .map_err(|e| AppError::ConfigError(format!("Failed to get password: {}", e)))
+    match entry.get_password() {
+        Ok(password) => Ok(Some(password)),
+        Err(keyring::Error::NoEntry) => Ok(None),
+        Err(e) => Err(AppError::ConfigError(format!(
+            "Failed to get password: {}",
+            e
+        ))),
+    }
 }
 
 fn delete_password_from_keyring(id: &str) -> Result<(), AppError> {
@@ -186,7 +191,7 @@ pub async fn set_default_connection(app: AppHandle, id: String) -> Result<(), Ap
 }
 
 #[tauri::command]
-pub async fn get_connection_password(id: String) -> Result<String, AppError> {
+pub async fn get_connection_password(id: String) -> Result<Option<String>, AppError> {
     get_password_from_keyring(&id)
 }
 
