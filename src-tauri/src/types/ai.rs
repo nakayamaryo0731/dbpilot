@@ -16,7 +16,10 @@ pub struct GenerateSqlRequest {
     pub prompt: String,
     pub schema_context: String,
     pub provider: AiProvider,
+    #[ts(optional)]
     pub api_key: Option<String>,
+    #[ts(optional)]
     pub ollama_base_url: Option<String>,
+    #[ts(optional)]
     pub ollama_model: Option<String>,
 }

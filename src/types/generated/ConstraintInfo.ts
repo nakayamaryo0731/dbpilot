@@ -4,5 +4,5 @@ export type ConstraintInfo = {
   name: string;
   constraint_type: string;
   columns: Array<string>;
-  definition: string | null;
+  definition?: string;
 };

@@ -21,6 +21,7 @@ pub struct TableColumnInfo {
     pub is_nullable: bool,
     pub is_primary_key: bool,
     pub is_auto_generated: bool,
+    #[ts(optional)]
     pub default_value: Option<String>,
 }
 

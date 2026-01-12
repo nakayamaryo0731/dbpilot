@@ -6,5 +6,5 @@ export type TableColumnInfo = {
   is_nullable: boolean;
   is_primary_key: boolean;
   is_auto_generated: boolean;
-  default_value: string | null;
+  default_value?: string;
 };

@@ -1,35 +1,14 @@
-export type SslMode = "disable" | "prefer" | "require";
+// Re-export generated types from ts-rs
+export type {
+  SslMode,
+  SavedConnection,
+  SaveConnectionInput,
+} from "./generated";
 
-export interface ConnectionConfig {
-  id: string;
-  name: string;
-  host: string;
-  port: number;
-  database: string;
-  username: string;
+// ConnectionConfig with password field (not exported from Rust for security)
+// The generated ConnectionConfig doesn't include password, so we extend it
+import type { ConnectionConfig as BaseConnectionConfig } from "./generated";
+
+export interface ConnectionConfig extends BaseConnectionConfig {
   password: string;
-  ssl_mode: SslMode;
-}
-
-export interface SavedConnection {
-  id: string;
-  name: string;
-  host: string;
-  port: number;
-  database: string;
-  username: string;
-  ssl_mode: SslMode;
-  is_default: boolean;
-}
-
-export interface SaveConnectionInput {
-  id: string;
-  name: string;
-  host: string;
-  port: number;
-  database: string;
-  username: string;
-  password: string;
-  ssl_mode: SslMode;
-  is_default: boolean;
 }

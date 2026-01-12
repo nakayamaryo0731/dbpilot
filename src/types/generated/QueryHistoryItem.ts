@@ -4,7 +4,7 @@ export type QueryHistoryItem = {
   id: string;
   query: string;
   executed_at: string;
-  row_count: number | null;
-  execution_time_ms: number | null;
-  error: string | null;
+  row_count?: number;
+  execution_time_ms?: number;
+  error?: string;
 };

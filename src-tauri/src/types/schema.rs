@@ -10,6 +10,7 @@ pub struct ColumnInfo {
     pub data_type: String,
     pub is_nullable: bool,
     pub is_primary_key: bool,
+    #[ts(optional)]
     pub default_value: Option<String>,
 }
 
@@ -55,6 +56,7 @@ pub struct ConstraintInfo {
     pub name: String,
     pub constraint_type: String,
     pub columns: Vec<String>,
+    #[ts(optional)]
     pub definition: Option<String>,
 }
 

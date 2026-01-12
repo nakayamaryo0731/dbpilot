@@ -27,8 +27,10 @@ pub struct QueryHistoryItem {
     pub id: String,
     pub query: String,
     pub executed_at: String,
+    #[ts(optional)]
     pub row_count: Option<usize>,
-    #[ts(type = "number | null")]
+    #[ts(optional, type = "number")]
     pub execution_time_ms: Option<u64>,
+    #[ts(optional)]
     pub error: Option<String>,
 }

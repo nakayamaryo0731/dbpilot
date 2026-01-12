@@ -5,7 +5,7 @@ export type GenerateSqlRequest = {
   prompt: string;
   schema_context: string;
   provider: AiProvider;
-  api_key: string | null;
-  ollama_base_url: string | null;
-  ollama_model: string | null;
+  api_key?: string;
+  ollama_base_url?: string;
+  ollama_model?: string;
 };

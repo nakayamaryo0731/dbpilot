@@ -5,5 +5,5 @@ export type ColumnInfo = {
   data_type: string;
   is_nullable: boolean;
   is_primary_key: boolean;
-  default_value: string | null;
+  default_value?: string;
 };
