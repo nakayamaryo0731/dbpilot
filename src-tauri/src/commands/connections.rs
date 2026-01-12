@@ -6,7 +6,7 @@ use std::fs;
 use std::path::PathBuf;
 use tauri::{AppHandle, Manager};
 
-const KEYRING_SERVICE: &str = "dbpilot";
+const KEYRING_SERVICE: &str = "tablex";
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 struct ConnectionsFile {

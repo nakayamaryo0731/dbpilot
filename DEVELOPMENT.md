@@ -1,8 +1,8 @@
-# dbpilot 開発ドキュメント
+# Tablex 開発ドキュメント
 
 ## プロジェクト概要
 
-**dbpilot** - Rust + Tauriで作る爆速DBクライアント
+**Tablex** - Rust + Tauriで作る爆速DBクライアント
 
 - GitHub: https://github.com/nakayamaryo0731/dbpilot
 - 対応DB: PostgreSQL（初期ターゲット）

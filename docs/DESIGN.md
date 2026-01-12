@@ -1,8 +1,8 @@
-# dbpilot 設計ドキュメント
+# Tablex 設計ドキュメント
 
 ## 概要
 
-dbpilotは、Rust + Tauri v2で構築する高速なデータベースクライアントアプリケーションです。PostgreSQLを初期ターゲットとし、SQLエディタ、スキーマビジュアライゼーション、AI支援機能を提供します。
+Tablexは、Rust + Tauri v2で構築する高速なデータベースクライアントアプリケーションです。PostgreSQLを初期ターゲットとし、SQLエディタ、スキーマビジュアライゼーション、AI支援機能を提供します。
 
 ### 主要な特徴
 
@@ -130,7 +130,7 @@ graph TB
 ### ディレクトリ構成
 
 ```
-dbpilot/
+tablex/
 ├── src-tauri/
 │   ├── src/
 │   │   ├── main.rs              # エントリポイント
@@ -222,7 +222,7 @@ dbpilot/
 
 #### 設定ファイル
 
-設定ファイルパス: `~/.config/dbpilot/config.json`
+設定ファイルパス: `~/.config/tablex/config.json`
 
 ```rust
 // Rust (Backend)
@@ -720,7 +720,7 @@ csv = "1"
 
 ```mermaid
 gantt
-    title dbpilot 実装フェーズ
+    title Tablex 実装フェーズ
     dateFormat X
     axisFormat %s
 
