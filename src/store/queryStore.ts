@@ -19,6 +19,16 @@ export interface QueryHistoryItem {
   error?: string;
 }
 
+// Serialized format for persistence
+interface SerializedHistoryItem {
+  id: string;
+  query: string;
+  executed_at: string;
+  row_count?: number;
+  execution_time_ms?: number;
+  error?: string;
+}
+
 interface QueryState {
   query: string;
   result: QueryResult | null;
@@ -47,6 +57,8 @@ interface QueryState {
   clearResult: () => void;
   clearError: () => void;
   clearHistory: () => void;
+  loadHistory: () => Promise<void>;
+  saveHistory: () => Promise<void>;
 
   // CRUD actions
   loadTableData: (schema: string, table: string) => Promise<void>;
@@ -101,7 +113,7 @@ export const useQueryStore = create<QueryState>((set, get) => ({
   setQuery: (query: string) => set({ query }),
 
   executeQuery: async () => {
-    const { query, queryHistory } = get();
+    const { query, queryHistory, saveHistory } = get();
     if (!query.trim()) return;
 
     const historyItem: QueryHistoryItem = {
@@ -127,6 +139,9 @@ export const useQueryStore = create<QueryState>((set, get) => ({
         tableData: null,
         queryHistory: newHistory,
       });
+
+      // Persist history
+      await saveHistory();
     } catch (error) {
       // Update history with error
       historyItem.error = String(error);
@@ -137,6 +152,9 @@ export const useQueryStore = create<QueryState>((set, get) => ({
         error: String(error),
         queryHistory: newHistory,
       });
+
+      // Persist history even on error
+      await saveHistory();
     }
   },
 
@@ -144,7 +162,44 @@ export const useQueryStore = create<QueryState>((set, get) => ({
 
   clearError: () => set({ error: null }),
 
-  clearHistory: () => set({ queryHistory: [] }),
+  clearHistory: async () => {
+    set({ queryHistory: [] });
+    await get().saveHistory();
+  },
+
+  loadHistory: async () => {
+    try {
+      const items = await invoke<SerializedHistoryItem[]>("load_query_history");
+      const history: QueryHistoryItem[] = items.map((item) => ({
+        id: item.id,
+        query: item.query,
+        executedAt: new Date(item.executed_at),
+        rowCount: item.row_count,
+        executionTimeMs: item.execution_time_ms,
+        error: item.error,
+      }));
+      set({ queryHistory: history });
+    } catch (error) {
+      console.error("Failed to load query history:", error);
+    }
+  },
+
+  saveHistory: async () => {
+    try {
+      const { queryHistory } = get();
+      const items: SerializedHistoryItem[] = queryHistory.map((item) => ({
+        id: item.id,
+        query: item.query,
+        executed_at: item.executedAt.toISOString(),
+        row_count: item.rowCount,
+        execution_time_ms: item.executionTimeMs,
+        error: item.error,
+      }));
+      await invoke("save_query_history", { history: items });
+    } catch (error) {
+      console.error("Failed to save query history:", error);
+    }
+  },
 
   // CRUD actions
   loadTableData: async (schema: string, table: string) => {

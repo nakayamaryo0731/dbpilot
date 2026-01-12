@@ -3,9 +3,11 @@ import "./App.css";
 import { Header, StatusBar, ResizableLayout } from "./components/layout";
 import { useAiStore } from "./store/aiStore";
 import { useConnectionStore } from "./store/connectionStore";
+import { useQueryStore } from "./store/queryStore";
 
 function App() {
   const loadSettings = useAiStore((state) => state.loadSettings);
+  const loadHistory = useQueryStore((state) => state.loadHistory);
   const checkConnectionStatus = useConnectionStore(
     (state) => state.checkConnectionStatus
   );
@@ -39,8 +41,9 @@ function App() {
 
   useEffect(() => {
     loadSettings();
+    loadHistory();
     checkConnectionStatus();
-  }, [loadSettings, checkConnectionStatus]);
+  }, [loadSettings, loadHistory, checkConnectionStatus]);
 
   // Auto-connect to default connection on startup
   useEffect(() => {
