@@ -3,6 +3,7 @@ pub mod connection;
 pub mod connections;
 pub mod export;
 pub mod query;
+pub mod query_history;
 pub mod schema;
 pub mod settings;
 pub mod table_data;

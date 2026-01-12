@@ -25,6 +25,8 @@ pub fn run() {
             commands::ai::generate_sql,
             commands::settings::save_settings,
             commands::settings::load_settings,
+            commands::query_history::save_query_history,
+            commands::query_history::load_query_history,
             commands::connections::save_connection,
             commands::connections::load_connections,
             commands::connections::delete_connection,
