@@ -1,16 +1,9 @@
-export type AiProvider = "Claude" | "Ollama";
+// Re-export generated types from ts-rs
+export type { AiProvider, GenerateSqlRequest } from "./generated";
 
-export interface GenerateSqlRequest {
-  prompt: string;
-  schema_context: string;
-  provider: AiProvider;
-  api_key?: string;
-  ollama_base_url?: string;
-  ollama_model?: string;
-}
-
+// Frontend-only type (not in Rust, stored in localStorage)
 export interface AiSettings {
-  provider: AiProvider;
+  provider: "Claude" | "Ollama";
   claudeApiKey: string;
   ollamaBaseUrl: string;
   ollamaModel: string;
