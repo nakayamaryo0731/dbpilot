@@ -30,7 +30,7 @@ export const TableNode = memo(function TableNode({ data }: TableNodeProps) {
   return (
     <div
       onClick={handleClick}
-      className={`min-w-[180px] cursor-pointer rounded-[var(--radius)] border-2 bg-[hsl(var(--background))] shadow-md transition-all ${
+      className={`min-w-45 cursor-pointer rounded-(--radius) border-2 bg-[hsl(var(--background))] shadow-md transition-all ${
         isFocused
           ? "border-[hsl(var(--warning))] ring-2 ring-[hsl(var(--warning))]/50"
           : "border-[hsl(var(--border))] hover:border-[hsl(var(--primary))]"

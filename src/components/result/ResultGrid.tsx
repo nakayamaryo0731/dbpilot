@@ -36,7 +36,7 @@ export function ResultGrid() {
   if (error) {
     return (
       <div className="p-4">
-        <div className="rounded-[var(--radius)] bg-[hsl(var(--destructive))]/10 p-3 text-[13px] text-[hsl(var(--destructive))]">
+        <div className="rounded-(--radius) bg-[hsl(var(--destructive))]/10 p-3 text-[13px] text-[hsl(var(--destructive))]">
           {error}
         </div>
       </div>
