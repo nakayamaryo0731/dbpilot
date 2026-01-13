@@ -22,6 +22,9 @@ export function SqlEditor() {
         automaticLayout: true,
         tabSize: 2,
         padding: { top: 8, bottom: 8 },
+        wordBasedSuggestions: "currentDocument",
+        suggestOnTriggerCharacters: true,
+        quickSuggestions: true,
       }}
     />
   );
